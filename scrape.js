@@ -46,7 +46,7 @@ const viewSubmissions = async (page, submissions, initialPageNumber) => {
         let lastPage = false;
         while (!lastPage) {
             console.log(`trying page ${pageNumber}`);
-            await page.goto(`https://www.hackerrank.com/contests/2020-pshs-adv-pokemasters/judge/submissions/${pageNumber}`);
+            await page.goto(`https://www.hackerrank.com/contests/${config.contest_slug}/judge/submissions/${pageNumber}`);
             const err = await waitForElements(page);
             const content = await page.content();
             const $ = cheerio.load(content);
@@ -98,7 +98,7 @@ const viewSubmissions = async (page, submissions, initialPageNumber) => {
     const page = await browser.newPage();
     page.setDefaultTimeout(5000);
 
-    await login(page, auth);
+    await login(page, config.auth);
 
     const submissions = [];
     if (await viewSubmissions(page, submissions, 1)) {
