@@ -6,8 +6,10 @@
   "scripts": {
     "scrape": "node scrape.js",
     "adjust": "node adjust.js",
+    "analyze": "node analyze.js",
     "clean:adjust": "del submissions\\adjusted\\*.json",
-    "clean:raw": "del submissions\\raw\\*.json"
+    "clean:raw": "del submissions\\raw\\*.json",
+    "clean:analyze": "del submissions\\analyzed\\*.xlsx"
   },
   "author": "",
   "license": "ISC",

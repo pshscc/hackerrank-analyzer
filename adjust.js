@@ -7,7 +7,7 @@ console.log(`starting with ${raw.length} submission(s)`);
 const unqiueSolutionURLs = new Set();
 let submissionNumber = 0;
 const submissions = raw.filter(sub => {
-    if (unqiueSolutionURLs.has(sub.url) || !sub.duringContest)
+    if (unqiueSolutionURLs.has(sub.url) || !sub.duringContest || config.adjust.teams.exclude.some(name => name === sub.team.name))
         return false;
     unqiueSolutionURLs.add(sub.url);
     return true;
