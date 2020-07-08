@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "scrape": "node scrape.js"
+    "scrape": "node scrape.js",
+    "adjust": "node adjust.js",
+    "clean:adjust": "del submissions\\adjusted\\*.json",
+    "clean:raw": "del submissions\\raw\\*.json"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "puppeteer": "^2.1.1"
+    "puppeteer": "^2.1.1",
+    "xlsx": "^0.16.3"
   }
 }

@@ -103,10 +103,7 @@ const getSubmissions = async (page, submissions, initialPageNumber) => {
     const submissions = [];
     if (await getSubmissions(page, submissions, config.scrape.initialPageNumber)) {
         submissions.reverse();
-        let id = 0;
-        while (fs.existsSync(`./raw_submissions${id}.json`))
-            id++;
-        fs.writeFileSync(`./raw_submissions${id}.json`, JSON.stringify(submissions, null, 4));
+        fs.writeFileSync(config.scrape.rawSubmissionPath, JSON.stringify(submissions, null, 4));
     }
 
     console.log(`done with ${submissions.length} submission(s)`);

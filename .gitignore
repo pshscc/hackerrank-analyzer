@@ -1,4 +1,4 @@
 node_modules/
 config.json
-raw_submissions*.json
+submissions/
 *.html
