@@ -40,13 +40,13 @@ const waitForElements = async (page) => {
     }
 };
 
-const viewSubmissions = async (page, submissions, initialPageNumber) => {
+const getSubmissions = async (page, submissions, initialPageNumber) => {
     try {
         let pageNumber = initialPageNumber;
         let lastPage = false;
         while (!lastPage) {
             console.log(`trying page ${pageNumber}`);
-            await page.goto(`https://www.hackerrank.com/contests/${config.contest_slug}/judge/submissions/${pageNumber}`);
+            await page.goto(`https://www.hackerrank.com/contests/${config.contest.slug}/judge/submissions/${pageNumber}`);
             const err = await waitForElements(page);
             const content = await page.content();
             const $ = cheerio.load(content);
@@ -94,14 +94,14 @@ const viewSubmissions = async (page, submissions, initialPageNumber) => {
 };
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: config.scrape.puppeteer.headless });
     const page = await browser.newPage();
-    page.setDefaultTimeout(5000);
+    page.setDefaultTimeout(config.scrape.puppeteer.timeout);
 
     await login(page, config.auth);
 
     const submissions = [];
-    if (await viewSubmissions(page, submissions, 1)) {
+    if (await getSubmissions(page, submissions, config.scrape.initialPageNumber)) {
         submissions.reverse();
         let id = 0;
         while (fs.existsSync(`./raw_submissions${id}.json`))
