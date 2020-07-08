@@ -46,7 +46,7 @@ const getSubmissions = async (page, submissions, initialPageNumber) => {
         let lastPage = false;
         while (!lastPage) {
             console.log(`trying page ${pageNumber}`);
-            await page.goto(`https://www.hackerrank.com/contests/${config.contest.slug}/judge/submissions/${pageNumber}`);
+            await page.goto(`https://www.hackerrank.com/contests/${config.contest.slug[config.contest.currentType]}/judge/submissions/${pageNumber}`);
             const err = await waitForElements(page);
             const content = await page.content();
             const $ = cheerio.load(content);
@@ -94,18 +94,24 @@ const getSubmissions = async (page, submissions, initialPageNumber) => {
 };
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: config.scrape.puppeteer.headless });
-    const page = await browser.newPage();
-    page.setDefaultTimeout(config.scrape.puppeteer.timeout);
+    let browser;
+    try {
+        browser = await puppeteer.launch({ headless: config.scrape.puppeteer.headless });
+        const page = await browser.newPage();
+        page.setDefaultTimeout(config.scrape.puppeteer.timeout);
 
-    await login(page, config.auth);
+        await login(page, config.auth);
 
-    const submissions = [];
-    if (await getSubmissions(page, submissions, config.scrape.initialPageNumber)) {
-        submissions.reverse();
-        fs.writeFileSync(config.scrape.rawSubmissionPath, JSON.stringify(submissions, null, 4));
+        const submissions = [];
+        if (await getSubmissions(page, submissions, config.scrape.initialPageNumber)) {
+            submissions.reverse();
+            fs.writeFileSync(config.scrape.rawSubmissionPath[config.contest.currentType], JSON.stringify(submissions, null, 4));
+        }
+
+        console.log(`done with ${submissions.length} submission(s)`);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await browser.close();
     }
-
-    console.log(`done with ${submissions.length} submission(s)`);
-    await browser.close();
-})().catch(console.error);
+})();

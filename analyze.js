@@ -1,7 +1,8 @@
 const config = require('./config.json');
 const fs = require('fs');
 const XLSX = require('xlsx');
-const adjusted = require(config.adjust.adjustedSubmissionPath);
+const { root } = require('cheerio');
+const adjusted = require(config.adjust.adjustedSubmissionPath[config.contest.currentType]);
 
 const teamNames = new Set();
 adjusted.forEach(({ team }) => teamNames.add(team.name));
@@ -59,20 +60,30 @@ const teamsArr = [...teamsMap].map(pair => pair[1])
         return teamData;
     });
 
-fs.writeFileSync(config.analyze.analyzedSubmissionPath.JSON, JSON.stringify(teamsArr, null, 4));
+fs.writeFileSync(config.analyze.analyzedSubmissionPath.JSON[config.contest.currentType], JSON.stringify(teamsArr, null, 4));
 
-// const wb = XLSX.utils.book_new();
-// if (!wb.Props)
-//     wb.Props = {};
-// wb.Props.Title = 'Leaderboard';
-// const wsName = 'Leaderboard';
-// const wsData = [
-//     ["S", "h", "e", "e", "t", "J", "S"],
-//     [1, 2, 3, 4, 5]
-// ];
-// const ws = XLSX.utils.aoa_to_sheet(wsData);
-// XLSX.utils.book_append_sheet(wb, ws, wsName);
-// XLSX.writeFile(wb, config.analyze.analyzedSubmissionPath);
+const wb = XLSX.utils.book_new();
+if (!wb.Props)
+    wb.Props = {};
+wb.Props.Title = 'Leaderboard';
+const wsName = 'Leaderboard';
+
+const problems = config.contest.problems[config.contest.currentType];
+const wsData = [['Rank', 'Team', 'Solved', 'Time', 'Submission Number Sum', ...problems]];
+
+const problemIndex = new Map();
+problems.forEach((name, index) => problemIndex.set(name, index));
+teamsArr.forEach(team => {
+    const row = [team.rank, team.name, team.uniqueCorrectSubmissionsCount, team.time, team.correctSubmissionNumberSum];
+    const arr = Array(problemIndex.size);
+    team.submissions.correct.forEach(sub => arr[problemIndex.get(sub.problem.name)] = `${sub.time} + ${sub.submissionNumber}`);
+    row.push(...arr);
+    wsData.push(row);
+});
+
+const ws = XLSX.utils.aoa_to_sheet(wsData);
+XLSX.utils.book_append_sheet(wb, ws, wsName);
+XLSX.writeFile(wb, config.analyze.analyzedSubmissionPath.XLSX[config.contest.currentType]);
 
 console.log(`done with ${teamsArr.length} team(s)`);
 teamsArr.forEach(team => console.log(`rank ${team.rank}: ${team.name}`));

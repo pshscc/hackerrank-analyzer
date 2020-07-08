@@ -1,6 +1,6 @@
 const fs = require('fs');
 const config = require('./config.json');
-const raw = require(config.scrape.rawSubmissionPath);
+const raw = require(config.scrape.rawSubmissionPath[config.contest.currentType]);
 
 console.log(`starting with ${raw.length} submission(s)`);
 
@@ -16,6 +16,6 @@ const submissions = raw.filter(sub => {
     return sub;
 });
 
-fs.writeFileSync(config.adjust.adjustedSubmissionPath, JSON.stringify(submissions, null, 4));
+fs.writeFileSync(config.adjust.adjustedSubmissionPath[config.contest.currentType], JSON.stringify(submissions, null, 4));
 
 console.log(`done with ${submissions.length} submission(s)`);

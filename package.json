@@ -9,7 +9,7 @@
     "analyze": "node analyze.js",
     "clean:adjust": "del submissions\\adjusted\\*.json",
     "clean:raw": "del submissions\\raw\\*.json",
-    "clean:analyze": "del submissions\\analyzed\\*.xlsx"
+    "clean:analyze": "del submissions\\analyzed\\*.xlsx submissions\\analyzed\\*.json"
   },
   "author": "",
   "license": "ISC",
