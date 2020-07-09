@@ -49,6 +49,9 @@ const teamsArr = [...teamsMap].map(pair => pair[1])
     .sort((a, b) => {
         if (a.uniqueCorrectSubmissionsCount === b.uniqueCorrectSubmissionsCount) {
             if (a.time === b.time) {
+                if (a.correctSubmissionNumberSum === b.correctSubmissionNumberSum) {
+                    return a.submissionCount - b.submissionCount;
+                }
                 return a.correctSubmissionNumberSum - b.correctSubmissionNumberSum;
             }
             return a.time - b.time;
@@ -69,12 +72,12 @@ wb.Props.Title = 'Leaderboard';
 const wsName = 'Leaderboard';
 
 const problems = config.contest.problems[config.contest.currentType];
-const wsData = [['Rank', 'Team', 'Solved', 'Time', 'Submission Number Sum', ...problems]];
+const wsData = [['Rank', 'Team', 'Solved', 'Time', 'Submission Number Sum', 'Total Submissions', ...problems]];
 
 const problemIndex = new Map();
 problems.forEach((name, index) => problemIndex.set(name, index));
 teamsArr.forEach(team => {
-    const row = [team.rank, team.name, team.uniqueCorrectSubmissionsCount, team.time, team.correctSubmissionNumberSum];
+    const row = [team.rank, team.name, team.uniqueCorrectSubmissionsCount, team.time, team.correctSubmissionNumberSum, team.submissionCount];
     const arr = Array(problemIndex.size);
     team.submissions.correct.forEach(sub => arr[problemIndex.get(sub.problem.name)] = `${sub.time} + ${sub.submissionNumber}`);
     row.push(...arr);
