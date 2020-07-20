@@ -13,11 +13,19 @@
     "clean": "npm run clean:adjust && npm run clean:raw && npm run clean:analyze"
   },
   "author": "JB Ladera (https://github.com/minidomo)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "puppeteer": "^2.1.1",
     "xlsx": "^0.16.3"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pshscc/hackerrank-analyzer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pshscc/hackerrank-analyzer/issues"
+  },
+  "homepage": "https://github.com/pshscc/hackerrank-analyzer#readme"
 }
