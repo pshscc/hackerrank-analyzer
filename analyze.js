@@ -1,7 +1,7 @@
 const config = require('./config.json');
 const fs = require('fs');
 const XLSX = require('xlsx');
-const { root } = require('cheerio');
+const path = require('path');
 const adjusted = require(config.adjust.adjustedSubmissionPath[config.contest.currentType]);
 
 const teamNames = new Set();
@@ -63,7 +63,9 @@ const teamsArr = [...teamsMap].map(pair => pair[1])
         return teamData;
     });
 
-fs.writeFileSync(config.analyze.analyzedSubmissionPath.JSON[config.contest.currentType], JSON.stringify(teamsArr, null, 4));
+const JSONFilepath = config.analyze.analyzedSubmissionPath.JSON[config.contest.currentType];
+fs.mkdirSync(path.dirname(JSONFilepath), { recursive: true });
+fs.writeFileSync(JSONFilepath, JSON.stringify(teamsArr, null, 4));
 
 const wb = XLSX.utils.book_new();
 if (!wb.Props)
@@ -86,7 +88,9 @@ teamsArr.forEach(team => {
 
 const ws = XLSX.utils.aoa_to_sheet(wsData);
 XLSX.utils.book_append_sheet(wb, ws, wsName);
-XLSX.writeFile(wb, config.analyze.analyzedSubmissionPath.XLSX[config.contest.currentType]);
+const XLSXFilepath = config.analyze.analyzedSubmissionPath.XLSX[config.contest.currentType];
+fs.mkdirSync(path.dirname(XLSXFilepath), { recursive: true });
+XLSX.writeFile(wb, XLSXFilepath);
 
 console.log(`done with ${teamsArr.length} team(s)`);
 teamsArr.forEach(team => console.log(`rank ${team.rank}: ${team.name}`));

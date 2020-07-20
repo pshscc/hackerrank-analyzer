@@ -1,0 +1,77 @@
+{
+    "auth": { // login info for moderator account of the contests
+        "username": "email",
+        "password": "password"
+    },
+    "contest": {
+        "currentType": "advanced", // the current contest that is being used in the scrape, adjust, and analyze scripts
+        "slug": { // contest slugs
+            "advanced": "2020-pshs-adv-pokemasters",
+            "novice": "2020-pshs-nov-pokemasters"
+        },
+        "problems": { // names of the problems in each contest
+            "advanced": [
+                "Precise Gift Shop",
+                "Semi-Rare Candies",
+                "Pokémon Regions",
+                "A Wild Pidgey Has Appeared!",
+                "Guess That Pokémon",
+                "Macaron Mania",
+                "Pokémon Go To The Polls",
+                "Elimination",
+                "Marnie and Gloria",
+                "Cerulean Waters",
+                "Viridian Dash",
+                "Berry Buyers"
+            ],
+            "novice": [
+                "Gift Shop",
+                "Hatching",
+                "Pokémon Party",
+                "Angry Bird",
+                "Base Scoring",
+                "Call For Help!",
+                "My Poké Academia",
+                "Power Plant Scheming",
+                "Daycare Drop-off",
+                "Do You Like Chespin and His Poké Puffs?",
+                "Elimination",
+                "Naku"
+            ]
+        }
+    },
+    "scrape": {
+        "rawSubmissionPath": {
+            "advanced": "./submissions/raw/raw_submissions_advanced.json",
+            "novice": "./submissions/raw/raw_submissions_novice.json"
+        },
+        "puppeteer": {
+            "headless": false, // false - browser will not show, true - browser will show. if false results in issues, try switching to true.
+            "timeout": 5000 // amount of time in milliseconds to try to access a website during the scripts
+        },
+        "initialPageNumber": 1 // initial page number to start on the submission page
+    },
+    "adjust": {
+        "adjustedSubmissionPath": {
+            "advanced": "./submissions/adjusted/adjusted_submissions_advanced.json",
+            "novice": "./submissions/adjusted/adjusted_submissions_novice.json"
+        },
+        "teams": {
+            "exclude": [ // names of accounts to exclude in the submissions
+                "JB_Ladera"
+            ]
+        }
+    },
+    "analyze": {
+        "analyzedSubmissionPath": {
+            "XLSX": {
+                "advanced": "./submissions/analyzed/analyzed_submissions_advanced.xlsx",
+                "novice": "./submissions/analyzed/analyzed_submissions_novice.xlsx"
+            },
+            "JSON": {
+                "advanced": "./submissions/analyzed/analyzed_submissions_advanced.json",
+                "novice": "./submissions/analyzed/analyzed_submissions_novice.json"
+            }
+        }
+    }
+}

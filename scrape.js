@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const config = require('./config.json');
 const fs = require('fs');
+const path = require('path');
 
 const login = async (page, auth) => {
     console.log('logging in');
@@ -105,7 +106,9 @@ const getSubmissions = async (page, submissions, initialPageNumber) => {
         const submissions = [];
         if (await getSubmissions(page, submissions, config.scrape.initialPageNumber)) {
             submissions.reverse();
-            fs.writeFileSync(config.scrape.rawSubmissionPath[config.contest.currentType], JSON.stringify(submissions, null, 4));
+            const filepath = config.scrape.rawSubmissionPath[config.contest.currentType];
+            fs.mkdirSync(path.dirname(filepath), { recursive: true });
+            fs.writeFileSync(filepath, JSON.stringify(submissions, null, 4));
         }
 
         console.log(`done with ${submissions.length} submission(s)`);

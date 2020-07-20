@@ -9,7 +9,8 @@
     "analyze": "node analyze.js",
     "clean:adjust": "del submissions\\adjusted\\*.json",
     "clean:raw": "del submissions\\raw\\*.json",
-    "clean:analyze": "del submissions\\analyzed\\*.xlsx submissions\\analyzed\\*.json"
+    "clean:analyze": "del submissions\\analyzed\\*.xlsx submissions\\analyzed\\*.json",
+    "clean": "npm run clean:adjust && npm run clean:raw && npm run clean:analyze"
   },
   "author": "JB Ladera (https://github.com/minidomo)",
   "license": "ISC",
