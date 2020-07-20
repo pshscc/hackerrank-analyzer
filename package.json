@@ -1,7 +1,7 @@
 {
-  "name": "hackerrank",
+  "name": "hackerrank-analyzer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Analyzes the submissions of a HackerRank contest and creates a leaderboard.",
   "main": "index.js",
   "scripts": {
     "scrape": "node scrape.js",
@@ -11,11 +11,12 @@
     "clean:raw": "del submissions\\raw\\*.json",
     "clean:analyze": "del submissions\\analyzed\\*.xlsx submissions\\analyzed\\*.json"
   },
-  "author": "",
+  "author": "JB Ladera (https://github.com/minidomo)",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "puppeteer": "^2.1.1",
     "xlsx": "^0.16.3"
-  }
+  },
+  "devDependencies": {}
 }
