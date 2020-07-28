@@ -47,9 +47,9 @@
         },
         "puppeteer": {
             "headless": false, // false - browser will not show, true - browser will show. if false results in issues, try switching to true.
-            "timeout": 5000 // amount of time in milliseconds to try to access a website during the scripts
+            "timeout": 5000 // maximum amount of time in milliseconds to try to access a website during the scripts
         },
-        "initialPageNumber": 1 // initial page number to start on the submission page
+        "initialPageNumber": 1 // initial page number to start on the submission pages
     },
     "adjust": {
         "adjustedSubmissionPath": {
